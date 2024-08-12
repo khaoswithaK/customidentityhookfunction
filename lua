@@ -11,7 +11,12 @@ local function hookfunction(oldFunction, hookFunction)
         error("Could not determine function name.")
     end
 
-    getgenv()[funcName] = hookFunction
+    local environment = getgenv()
+    if not environment[funcName] then
+        environment[funcName] = oldFunction
+    end
+
+    environment[funcName] = hookFunction
     
     return oldFunction
 end
